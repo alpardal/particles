@@ -2,6 +2,7 @@ Particle = function(position, velocity, acceleration) {
     this.position = position || new Vector();
     this.velocity = velocity || new Vector();
     this.acceleration = acceleration || new Vector();
+    this.isAlive = true;
 };
 
 Particle.prototype.move = function() {
@@ -17,6 +18,11 @@ Particle.prototype.interactWith = function(fields) {
         var field = fields[i];
         var vx = field.position.x - this.position.x;
         var vy = field.position.y - this.position.y;
+
+        if (Math.abs(vx) <= field.size && Math.abs(vy) <= field.size) {
+            this.isAlive = false;
+            break;
+        }
 
         var force = field.mass / Math.pow(vx*vx + vy*vy, 1.5);
 

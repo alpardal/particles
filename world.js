@@ -42,7 +42,7 @@ World = function(bounds) {
         for (var i = 0; i < particles.length; i++) {
             var particle = particles[i];
 
-            if (bounds.contains(particle.position)) {
+            if (particle.isAlive && bounds.contains(particle.position)) {
                 particle.interactWith(fields)
                 particle.move();
                 newParticles.push(particle);
