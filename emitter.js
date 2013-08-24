@@ -15,8 +15,10 @@ Emitter.prototype.emitParticle = function() {
     return new Particle(position, velocity);
 };
 
-Emitter.prototype.addParticles = function(particles) {
+Emitter.prototype.emitParticles = function() {
+    var particles = [];
     for (var j = 0; j < this.emissionRate; j++) {
         particles.push(this.emitParticle());
     }
+    return particles;
 };

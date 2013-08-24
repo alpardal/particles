@@ -20,7 +20,8 @@ World = function(bounds) {
     var addNewParticles = function() {
         if (particles.length < maxParticles) {
             for (var i = 0; i < emitters.length; i++) {
-                emitters[i].addParticles(particles);
+                var newParticles = emitters[i].emitParticles();
+                Array.prototype.push.apply(particles, newParticles);
             }
         }
     };
