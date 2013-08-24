@@ -6,6 +6,8 @@
                                 Vector.fromAngle(-Math.PI/8, 2)));
     world.addEmitter(new Emitter(new Vector(canvas.width/8, canvas.height/8),
                                 Vector.fromAngle(Math.PI/8, 2)));
+    world.addField(new Field(new Vector(canvas.width*7/8,
+                                        canvas.height/4), -540));
 
     canvas.update = function() {
         world.updateParticles();

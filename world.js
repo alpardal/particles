@@ -1,20 +1,31 @@
 World = function(bounds) {
     var maxParticles = 4000;
     var emitters = [];
+    var fields = [];
     var particles = [];
 
     this.addEmitter = function(emitter) {
         emitters.push(emitter);
     };
 
+    this.addField = function(field) {
+        fields.push(field);
+    }
+
     this.updateParticles = function() {
         addNewParticles();
-        particles = moveParticles(particles, bounds);
+        particles = moveParticles(particles, fields, bounds);
     };
 
     this.drawParticles = function(ctx) {
-        var renderer = new ParticleRenderer(particles);
-        renderer.render(ctx);
+        new ParticleRenderer(particles).render(ctx);
+        drawFields(ctx);
+    };
+
+    var drawFields = function(ctx) {
+        for (var i = 0; i < fields.length; i++) {
+            fields[i].draw(ctx);
+        }
     };
 
     var addNewParticles = function() {
@@ -25,13 +36,14 @@ World = function(bounds) {
             }
         }
     };
-    var moveParticles = function(particles, bounds) {
+    var moveParticles = function(particles, fields, bounds) {
         var newParticles = [];
 
         for (var i = 0; i < particles.length; i++) {
             var particle = particles[i];
 
             if (bounds.contains(particle.position)) {
+                particle.interactWith(fields)
                 particle.move();
                 newParticles.push(particle);
             }
