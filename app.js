@@ -1,7 +1,6 @@
 (function() {
     var maxParticles = 3000;
     var emissionRate = 6;
-    var particleSize = 1;
 
     var canvas = new ParticleCanvas('#particles-canvas');
     var particles = [];
@@ -46,11 +45,8 @@
     };
 
     canvas.draw = function(ctx) {
-        ctx.fillStyle = 'rgb(0, 0, 255)';
-        for (var i = 0; i < particles.length; i++) {
-            var pos = particles[i].position;
-            ctx.fillRect(pos.x, pos.y, particleSize, particleSize);
-        }
+        var renderer = new ParticleRenderer(particles);
+        renderer.render(ctx);
     }
 
     canvas.loop();

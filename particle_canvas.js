@@ -7,6 +7,8 @@ ParticleCanvas = function(selector) {
     this.height = canvas.height;
 
     var ctx = canvas.getContext('2d');
+    ctx.width = canvas.width;
+    ctx.height = canvas.heigth;
 
     function clear() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
