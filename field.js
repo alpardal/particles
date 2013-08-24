@@ -1,7 +1,7 @@
 Field = function(position, mass) {
     this.position = position;
     this.setMass(mass);
-    this.size = 10 * Math.abs(mass) / 1000.0;
+    this.size = 15 * Math.abs(mass) / 1000.0;
 };
 
 Field.prototype.setMass = function(mass) {
