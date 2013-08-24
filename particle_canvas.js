@@ -5,6 +5,8 @@ ParticleCanvas = function(selector) {
 
     this.width = canvas.width;
     this.height = canvas.height;
+    this.bounds = new Rectangle(Vector.ORIGIN, canvas.width,
+                                               canvas.height);
 
     var ctx = canvas.getContext('2d');
     ctx.width = canvas.width;

@@ -3,6 +3,8 @@ Vector = function(x, y) {
     this.y = y || 0;
 }
 
+Vector.ORIGIN = new Vector(0, 0);
+
 Vector.prototype.copy = function() {
     return new Vector(this.x, this.y);
 }

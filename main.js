@@ -19,21 +19,17 @@
         }
     };
 
-    var moveParticles = function(canvasWidth, canvasHeight) {
+    var moveParticles = function() {
         var currentParticles = [];
 
         for (var i = 0; i < particles.length; i++) {
             var particle = particles[i];
             var pos = particle.position;
 
-            if(pos.x < 0 || pos.x > canvasWidth ||
-               pos.y < 0 || pos.y > canvasHeight) {
-                continue;
+            if (canvas.bounds.contains(pos)) {
+                particle.move();
+                currentParticles.push(particle);
             }
-
-            particle.move();
-
-            currentParticles.push(particle);
         }
 
         particles = currentParticles;
