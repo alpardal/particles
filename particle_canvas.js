@@ -1,5 +1,9 @@
 ParticleCanvas = function(selector) {
     var canvas = document.querySelector(selector);
+    var shouldClear = true;
+    canvas.addEventListener('click', function() {
+        shouldClear = !shouldClear;
+    });
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
@@ -19,7 +23,7 @@ ParticleCanvas = function(selector) {
     var self = this;
 
     this.loop = function() {
-        clear();
+        if (shouldClear) { clear(); }
         self.update();
         self.draw(ctx);
 
