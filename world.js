@@ -1,5 +1,5 @@
 World = function(bounds) {
-    var maxParticles = 4000;
+    var maxParticles = 8000;
     var emitters = [];
     var fields = [];
     var particles = [];

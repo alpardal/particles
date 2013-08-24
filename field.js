@@ -1,6 +1,7 @@
 Field = function(position, mass) {
     this.position = position;
     this.setMass(mass);
+    this.size = 5;
 };
 
 Field.prototype.setMass = function(mass) {
@@ -13,7 +14,7 @@ Field.prototype.draw = function(ctx) {
 
     ctx.fillStyle = this.drawColor;
     ctx.beginPath();
-    ctx.arc(this.position.x, this.position.y, 10, 0, Math.PI*2);
+    ctx.arc(this.position.x, this.position.y, this.size, 0, Math.PI*2);
     ctx.closePath();
     ctx.fill();
 
