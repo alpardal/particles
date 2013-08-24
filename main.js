@@ -1,11 +1,13 @@
 (function() {
-    var maxParticles = 3000;
-    var emissionRate = 6;
+    var maxParticles = 4000;
+    var emissionRate = 4;
 
     var canvas = new ParticleCanvas('#particles-canvas');
     var particles = [];
-    var emitters = [new Emitter(new Vector(canvas.width/8, canvas.height/2),
-                                Vector.fromAngle(0, 2))];
+    var emitters = [new Emitter(new Vector(canvas.width/8, canvas.height*7/8),
+                                Vector.fromAngle(-Math.PI/8, 2)),
+                    new Emitter(new Vector(canvas.width/8, canvas.height/8),
+                                Vector.fromAngle(Math.PI/8, 2))];
 
 
     var addNewParticles = function() {
