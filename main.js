@@ -8,17 +8,20 @@
     world.addEmitter(new Emitter(new Vector(canvas.width/8,
                                             canvas.height/8),
                                  Vector.fromAngle(Math.PI/8, 4)));
+    world.addEmitter(new Emitter(new Vector(canvas.width-50, canvas.height-50),
+                                 Vector.fromAngle(Math.PI*1.25, 4)));
 
-    world.addField(new Field(new Vector(canvas.width*7/8,
-                                        canvas.height/4), -540));
-    world.addField(new Field(new Vector(canvas.width*0.6,
-                                        canvas.height*0.1), -800));
-    world.addField(new Field(new Vector(canvas.width*0.65,
-                                        canvas.height*0.15), 500));
-    world.addField(new Field(new Vector(canvas.width/3,
-                                        canvas.height/2), 350));
-    world.addField(new Field(new Vector(canvas.width*0.8,
-                                        canvas.height*0.8), -700));
+     var randomField = function() {
+         var pos = new Vector(canvas.width * Math.random(),
+                              canvas.height * Math.random());
+        var mass = -1000 + 2000 * Math.random();
+        return new Field(pos, mass);
+     }
+
+     var numOfFields = 5 + 10 * Math.random();
+     for (var i = 0; i < numOfFields; i++) {
+         world.addField(randomField());
+     }
 
     canvas.update = function() {
         world.updateParticles();
