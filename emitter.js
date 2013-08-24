@@ -3,7 +3,8 @@ Emitter = function(position, velocity, spread) {
     this.velocity = velocity;
     this.spread = spread || Math.PI/16;
     this.drawColor = '#999';
-}
+    this.emissionRate = 4;
+};
 
 Emitter.prototype.emitParticle = function() {
     var angle = this.velocity.getAngle() +
@@ -12,4 +13,10 @@ Emitter.prototype.emitParticle = function() {
     var position = this.position.copy();
     var velocity = Vector.fromAngle(angle, magnitude);
     return new Particle(position, velocity);
-}
+};
+
+Emitter.prototype.addParticles = function(particles) {
+    for (var j = 0; j < this.emissionRate; j++) {
+        particles.push(this.emitParticle());
+    }
+};
