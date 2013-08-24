@@ -19,8 +19,8 @@
         }
     };
 
-    var moveParticles = function() {
-        var currentParticles = [];
+    var moveParticles = function(particles, canvas) {
+        var newParticles = [];
 
         for (var i = 0; i < particles.length; i++) {
             var particle = particles[i];
@@ -28,16 +28,16 @@
 
             if (canvas.bounds.contains(pos)) {
                 particle.move();
-                currentParticles.push(particle);
+                newParticles.push(particle);
             }
         }
 
-        particles = currentParticles;
+        return newParticles;
     };
 
     canvas.update = function() {
         addNewParticles();
-        moveParticles(canvas.width, canvas.height);
+        particles = moveParticles(particles, canvas);
     };
 
     canvas.draw = function(ctx) {
