@@ -1,9 +1,9 @@
 Emitter = function(position, velocity, spread) {
     this.position = position;
     this.velocity = velocity;
-    this.spread = spread || Math.PI/16;
+    this.spread = spread || Math.PI/8 * Math.random();
     this.drawColor = '#999';
-    this.emissionRate = 4;
+    this.emissionRate = 6 * Math.random();
 };
 
 Emitter.prototype.emitParticle = function() {

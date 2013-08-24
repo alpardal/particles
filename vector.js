@@ -21,8 +21,8 @@ Vector.prototype.subtract = function(other) {
 };
 
 Vector.prototype.multiply = function(k) {
-    this.x = x * k;
-    this.y = y * k;
+    this.x = this.x * k;
+    this.y = this.y * k;
     return this;
 }
 
