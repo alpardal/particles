@@ -1,4 +1,6 @@
-(function() {
+define('main', ['particle_canvas', 'world', 'emitter', 'vector', 'field'],
+       function(ParticleCanvas, World, Emitter, Vector, Field) {
+
     var canvas = new ParticleCanvas('#particles-canvas');
     var world = new World(canvas.bounds);
     var speed = 4;
@@ -32,4 +34,4 @@
     }
 
     canvas.loop();
-})();
+});
