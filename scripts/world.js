@@ -1,6 +1,6 @@
 define('world',
-       ['vector', 'rectangle', 'particle_renderer', 'field'],
-       function(Vector, Rectangle, ParticleRenderer, Field) {
+       ['vector', 'rectangle', 'world_renderer', 'field'],
+       function(Vector, Rectangle, WorldRenderer, Field) {
 
     var World = function(width, height) {
         var maxParticles = 10000;
@@ -16,13 +16,9 @@ define('world',
             emitters.push(emitter);
         };
 
-        this.addField = function(field) {
-            fields.push(field);
-        };
-
         this.addFieldAt = function(x, y, mass) {
             var field = new Field(new Vector(x, y), mass);
-            this.addField(field);
+            fields.push(field);
         };
 
         this.update = function() {
@@ -31,14 +27,7 @@ define('world',
         };
 
         this.draw = function(ctx) {
-            new ParticleRenderer(particles).render(ctx);
-            drawFields(ctx);
-        };
-
-        var drawFields = function(ctx) {
-            for (var i = 0; i < fields.length; i++) {
-                fields[i].draw(ctx);
-            }
+            new WorldRenderer(particles, fields).render(ctx);
         };
 
         var addNewParticles = function() {
