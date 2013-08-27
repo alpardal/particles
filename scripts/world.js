@@ -1,6 +1,6 @@
 define('world',
-       ['vector', 'rectangle', 'world_renderer', 'field'],
-       function(Vector, Rectangle, WorldRenderer, Field) {
+       ['vector', 'rectangle', 'world_renderer', 'field', 'physics'],
+       function(Vector, Rectangle, WorldRenderer, Field, Physics) {
 
     var World = function(width, height) {
         var maxParticles = 10000;
@@ -8,6 +8,7 @@ define('world',
         var fields = [];
         var particles = [];
         var bounds = new Rectangle(Vector.ORIGIN, width, height);
+        var physics = new Physics(maxParticles, bounds);
 
         this.width = width;
         this.height = height;
@@ -22,37 +23,13 @@ define('world',
         };
 
         this.update = function() {
-            addNewParticles();
-            particles = moveParticles(particles, fields, bounds);
+            particles = physics.updateParticles(particles, fields, emitters);
         };
 
         this.draw = function(ctx) {
             new WorldRenderer(particles, fields).render(ctx);
         };
 
-        var addNewParticles = function() {
-            if (particles.length < maxParticles) {
-                for (var i = 0; i < emitters.length; i++) {
-                    var newParticles = emitters[i].emitParticles();
-                    Array.prototype.push.apply(particles, newParticles);
-                }
-            }
-        };
-
-        var moveParticles = function(particles, fields, bounds) {
-            var newParticles = [];
-
-            for (var i = 0; i < particles.length; i++) {
-                var particle = particles[i];
-
-                if (particle.isAlive && bounds.contains(particle.position)) {
-                    particle.interactWith(fields)
-                    particle.move();
-                    newParticles.push(particle);
-                }
-            }
-            return newParticles;
-        };
     };
 
     return World;
