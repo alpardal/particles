@@ -1,9 +1,16 @@
-define('world', ['particle_renderer'], function(ParticleRenderer) {
-    var World = function(bounds) {
+define('world',
+       ['vector', 'rectangle', 'particle_renderer'],
+       function(Vector, Rectangle, ParticleRenderer) {
+
+    var World = function(width, height) {
         var maxParticles = 10000;
         var emitters = [];
         var fields = [];
         var particles = [];
+        var bounds = new Rectangle(Vector.ORIGIN, width, height);
+
+        this.width = width;
+        this.height = height;
 
         this.addEmitter = function(emitter) {
             emitters.push(emitter);
@@ -13,12 +20,12 @@ define('world', ['particle_renderer'], function(ParticleRenderer) {
             fields.push(field);
         }
 
-        this.updateParticles = function() {
+        this.update = function() {
             addNewParticles();
             particles = moveParticles(particles, fields, bounds);
         };
 
-        this.drawParticles = function(ctx) {
+        this.draw = function(ctx) {
             new ParticleRenderer(particles).render(ctx);
             drawFields(ctx);
         };
