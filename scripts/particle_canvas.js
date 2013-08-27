@@ -1,16 +1,15 @@
-define('particle_canvas', [], function() {
+define('particle_canvas', ['controller'], function(Controller) {
 
     var ParticleCanvas = function(world, selector) {
         var canvas = document.querySelector(selector);
         canvas.width = world.width;
         canvas.height = world.height;
-
         var ctx = canvas.getContext('2d');
-        var shouldClear = true;
 
-        canvas.addEventListener('click', function() {
-            shouldClear = !shouldClear;
-        });
+        var controller = new Controller(world);
+        canvas.addEventListener('click', controller.mouseClick);
+        canvas.addEventListener('mouseup', controller.mouseUp);
+        canvas.addEventListener('mousedown', controller.mouseDown);
 
         this.start = function() {
             loop();
@@ -24,9 +23,7 @@ define('particle_canvas', [], function() {
         };
 
         var clearBackground = function() {
-            if (shouldClear) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
         };
 
     };
