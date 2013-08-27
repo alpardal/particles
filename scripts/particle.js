@@ -25,7 +25,8 @@ define('particle', ['vector'], function(Vector) {
                 break;
             }
 
-            var force = field.mass / Math.pow(vx*vx + vy*vy, 1.5);
+            var m = vx*vx + vy*vy
+            var force = field.mass / (m * Math.sqrt(m));
 
             ax += vx * force;
             ay += vy * force;
