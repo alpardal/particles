@@ -1,4 +1,5 @@
 define('particle_canvas', [], function() {
+
     var ParticleCanvas = function(world, selector) {
         var canvas = document.querySelector(selector);
         canvas.width = world.width;
@@ -16,16 +17,16 @@ define('particle_canvas', [], function() {
         };
 
         var loop = function() {
-            if (shouldClear) { clear(); }
-
+            clearBackground();
             world.update();
             world.draw(ctx);
-
             window.requestAnimationFrame(loop);
         };
 
-        var clear = function() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        var clearBackground = function() {
+            if (shouldClear) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
         };
 
     };
