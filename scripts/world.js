@@ -3,7 +3,7 @@ define('world',
        function(Vector, Rectangle, WorldRenderer, Field, Physics) {
 
     var World = function(width, height) {
-        var maxParticles = 10000;
+        var maxParticles = 5000;
         var emitters = [];
         var fields = [];
         var particles = [];

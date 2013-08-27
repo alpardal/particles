@@ -27,12 +27,11 @@ define('physics', [], function() {
         };
 
         this.updateParticles = function(particles, fields, emitters) {
-            var emittedParticles = emitParticles(emitters);
-            var particlesToAdd = maxParticles - particles.length;
-            Array.prototype.push.apply(particles,
-                                       emittedParticles.slice(0, particlesToAdd));
+            if (particles.length < maxParticles) {
+                var emittedParticles = emitParticles(emitters);
+                Array.prototype.push.apply(particles, emittedParticles);
+            }
 
-            Array.prototype.push.apply(particles, emitParticles(emitters));
             return moveParticles(particles, fields, bounds);
         };
     };
