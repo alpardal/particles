@@ -1,6 +1,6 @@
 define('world',
-       ['vector', 'rectangle', 'particle_renderer'],
-       function(Vector, Rectangle, ParticleRenderer) {
+       ['vector', 'rectangle', 'particle_renderer', 'field'],
+       function(Vector, Rectangle, ParticleRenderer, Field) {
 
     var World = function(width, height) {
         var maxParticles = 10000;
@@ -18,7 +18,12 @@ define('world',
 
         this.addField = function(field) {
             fields.push(field);
-        }
+        };
+
+        this.addFieldAt = function(x, y, mass) {
+            var field = new Field(new Vector(x, y), mass);
+            this.addField(field);
+        };
 
         this.update = function() {
             addNewParticles();
