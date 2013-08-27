@@ -12,10 +12,11 @@ define('vector', [], function() {
         return this;
     };
     Vector.prototype.subtract = function(other) {
-        this.add(other.multiply(-1));
+        this.x -= other.x;
+        this.y -= other.y;
         return this;
     };
-    Vector.prototype.multiply = function(k) {
+    Vector.prototype.scale = function(k) {
         this.x = this.x * k;
         this.y = this.y * k;
         return this;
@@ -25,6 +26,10 @@ define('vector', [], function() {
     };
     Vector.prototype.getAngle = function() {
         return Math.atan2(this.y, this.x);
+    };
+    Vector.prototype.toString = function() {
+        return '(' + Math.round(this.x) + ', ' +
+                     Math.round(this.y) + ')';
     };
     Vector.fromAngle = function(angle, magnitude) {
         return new Vector(magnitude * Math.cos(angle),
