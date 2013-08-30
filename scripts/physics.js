@@ -1,3 +1,4 @@
+times = 0;
 define('physics', ['vector'], function(Vector) {
 
     var Physics = function(maxParticles, bounds) {
@@ -36,22 +37,25 @@ define('physics', ['vector'], function(Vector) {
         };
 
         var applyFieldsToParticle = function(fields, particle) {
-            var ax = 0, ay = 0;
+            var resultingForce = new Vector();
 
             for (var i = 0; i < fields.length; i++) {
                 var field = fields[i];
-                var v = field.position.copy().subtract(particle.position);
-                var mag = v.getMagnitude();
 
-                if (mag <= field.size/2) {
+                if (field.contains(particle.position)) {
                     particle.isAlive = false;
                     break;
                 }
-                var force = field.mass / Math.pow(mag, 3);
-                ax += v.x * force;
-                ay += v.y * force;
+
+                var posDelta = field.position.copy().subtract(particle.position);
+                var distance = posDelta.getMagnitude();
+                var forceModule = field.mass / Math.pow(distance, 2);
+                var forceDir = posDelta.normalize();
+                var force = forceDir.scale(forceModule);
+                resultingForce.add(force);
             }
-            particle.acceleration = new Vector(ax, ay);
+
+            particle.acceleration = resultingForce;
         };
 
     };

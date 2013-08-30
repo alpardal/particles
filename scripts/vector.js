@@ -20,7 +20,10 @@ define('vector', [], function() {
         this.x = this.x * k;
         this.y = this.y * k;
         return this;
-    }
+    };
+    Vector.prototype.normalize = function(k) {
+        return this.scale(1/this.getMagnitude());
+    };
     Vector.prototype.getMagnitude = function() {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     };
