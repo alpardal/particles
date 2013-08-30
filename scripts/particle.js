@@ -1,8 +1,8 @@
 define('particle', ['vector'], function(Vector) {
-    var Particle = function(position, velocity, acceleration) {
+    var Particle = function(position, velocity) {
         this.position = position;
         this.velocity = velocity;
-        this.acceleration = acceleration || new Vector();
+        this.acceleration = new Vector();
         this.isAlive = true;
     };
 

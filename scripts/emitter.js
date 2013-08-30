@@ -10,9 +10,9 @@ define('emitter', ['vector', 'particle'], function(Vector, Particle) {
     Emitter.prototype.emitParticle = function() {
         var angle = this.velocity.getAngle() +
                       this.spread - (Math.random() * this.spread * 2);
-        var magnitude = this.velocity.getMagnitude();
+        var length = this.velocity.length();
         var position = this.position.copy();
-        var velocity = Vector.fromAngle(angle, magnitude);
+        var velocity = Vector.fromAngle(angle, length);
         return new Particle(position, velocity);
     };
 

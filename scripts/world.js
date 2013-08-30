@@ -7,7 +7,7 @@ define('world',
         var emitters = [];
         var fields = [];
         var particles = [];
-        var bounds = new Rectangle(Vector.ORIGIN, width, height);
+        var bounds = new Rectangle(new Vector(), width, height);
         var physics = new Physics(maxParticles, bounds);
 
         this.width = width;

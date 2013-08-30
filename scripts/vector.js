@@ -22,9 +22,9 @@ define('vector', [], function() {
         return this;
     };
     Vector.prototype.normalize = function(k) {
-        return this.scale(1/this.getMagnitude());
+        return this.scale(1/this.length());
     };
-    Vector.prototype.getMagnitude = function() {
+    Vector.prototype.length = function() {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     };
     Vector.prototype.getAngle = function() {
@@ -34,11 +34,10 @@ define('vector', [], function() {
         return '(' + Math.round(this.x) + ', ' +
                      Math.round(this.y) + ')';
     };
-    Vector.fromAngle = function(angle, magnitude) {
-        return new Vector(magnitude * Math.cos(angle),
-                          magnitude * Math.sin(angle));
+    Vector.fromAngle = function(angle, length) {
+        return new Vector(length * Math.cos(angle),
+                          length * Math.sin(angle));
     };
-    Vector.ORIGIN = new Vector(0, 0);
 
     return Vector;
 });

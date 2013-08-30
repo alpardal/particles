@@ -48,7 +48,7 @@ define('physics', ['vector'], function(Vector) {
                 }
 
                 var posDelta = field.position.copy().subtract(particle.position);
-                var distance = posDelta.getMagnitude();
+                var distance = posDelta.length();
                 var forceModule = field.mass / Math.pow(distance, 2);
                 var forceDir = posDelta.normalize();
                 var force = forceDir.scale(forceModule);
