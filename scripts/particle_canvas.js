@@ -7,9 +7,10 @@ define('particle_canvas', ['controller'], function(Controller) {
         var ctx = canvas.getContext('2d');
 
         var controller = new Controller(world);
-        canvas.addEventListener('click', controller.mouseClick);
-        canvas.addEventListener('mouseup', controller.mouseUp);
+        canvas.addEventListener('dblclick', controller.doubleClick);
         canvas.addEventListener('mousedown', controller.mouseDown);
+        canvas.addEventListener('mouseup', controller.mouseUp);
+        canvas.addEventListener('mousemove', controller.mouseMove);
 
         this.start = function() {
             loop();

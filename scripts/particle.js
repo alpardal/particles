@@ -17,19 +17,19 @@ define('particle', ['vector'], function(Vector) {
 
         for (var i = 0; i < fields.length; i++) {
             var field = fields[i];
-            var vx = field.position.x - this.position.x;
-            var vy = field.position.y - this.position.y;
 
-            if (Math.abs(vx) <= field.size && Math.abs(vy) <= field.size) {
+            var v = field.position.copy().subtract(this.position);
+            var mag = v.getMagnitude();
+
+            if (mag <= field.size/2) {
                 this.isAlive = false;
                 break;
             }
 
-            var m = vx*vx + vy*vy
-            var force = field.mass / (m * Math.sqrt(m));
+            var force = field.mass / Math.pow(mag, 3);
 
-            ax += vx * force;
-            ay += vy * force;
+            ax += v.x * force;
+            ay += v.y * force;
         }
 
         this.acceleration = new Vector(ax, ay);
