@@ -28,22 +28,40 @@ define(['vector'], function(Vector) {
             }
         };
 
-        this.mouseMove = function(e) {
-            if (ctrl.previousMousePosition === null) { return; }
+        this.mouseUp = function(e) {
+            ctrl.selectedObject = null;
+        };
 
+        this.mouseMove = function(e) {
             var mousePosition = new Vector(e.x, e.y);
+
+            if (ctrl.previousMousePosition === null) {
+                ctrl.previousMousePosition = mousePosition;
+            }
+
             var delta = mousePosition.copy().subtract(ctrl.previousMousePosition);
 
             if (ctrl.selectedObject) {
                 ctrl.selectedObject.dragged(delta, e);
             }
 
+            clearHover();
+            var hovered = world.objectAt(mousePosition);
+            if (hovered) {
+                hoverObject(hovered);
+            }
+
             ctrl.previousMousePosition = mousePosition;
         };
 
-        this.mouseUp = function(e) {
-            ctrl.previousMousePosition = null;
-            ctrl.selectedObject = null;
+        var hoverObject = function(object) {
+            object.hover = true;
+            ctrl.hovered = object;
+        };
+
+        var clearHover = function() {
+            if (ctrl.hovered) { ctrl.hovered.hover = false; }
+            ctrl.hovered = null;
         };
     };
 
