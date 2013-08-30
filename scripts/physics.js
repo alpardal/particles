@@ -1,6 +1,15 @@
-define('physics', [], function() {
+define('physics', ['vector'], function(Vector) {
 
     var Physics = function(maxParticles, bounds) {
+
+        this.updateParticles = function(particles, fields, emitters) {
+            if (particles.length < maxParticles) {
+                var emittedParticles = emitParticles(emitters);
+                Array.prototype.push.apply(particles, emittedParticles);
+            }
+
+            return moveParticles(particles, fields, bounds);
+        };
 
         var emitParticles = function(emitters) {
             var particles = [];
@@ -18,7 +27,7 @@ define('physics', [], function() {
                 var particle = particles[i];
 
                 if (particle.isAlive && bounds.contains(particle.position)) {
-                    particle.interactWith(fields)
+                    applyFieldsToParticle(fields, particle);
                     particle.move();
                     newParticles.push(particle);
                 }
@@ -26,14 +35,25 @@ define('physics', [], function() {
             return newParticles;
         };
 
-        this.updateParticles = function(particles, fields, emitters) {
-            if (particles.length < maxParticles) {
-                var emittedParticles = emitParticles(emitters);
-                Array.prototype.push.apply(particles, emittedParticles);
-            }
+        var applyFieldsToParticle = function(fields, particle) {
+            var ax = 0, ay = 0;
 
-            return moveParticles(particles, fields, bounds);
+            for (var i = 0; i < fields.length; i++) {
+                var field = fields[i];
+                var v = field.position.copy().subtract(particle.position);
+                var mag = v.getMagnitude();
+
+                if (mag <= field.size/2) {
+                    particle.isAlive = false;
+                    break;
+                }
+                var force = field.mass / Math.pow(mag, 3);
+                ax += v.x * force;
+                ay += v.y * force;
+            }
+            particle.acceleration = new Vector(ax, ay);
         };
+
     };
 
     return Physics;

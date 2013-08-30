@@ -1,7 +1,7 @@
 define('particle', ['vector'], function(Vector) {
     var Particle = function(position, velocity, acceleration) {
-        this.position = position || new Vector();
-        this.velocity = velocity || new Vector();
+        this.position = position;
+        this.velocity = velocity;
         this.acceleration = acceleration || new Vector();
         this.isAlive = true;
     };
@@ -10,29 +10,6 @@ define('particle', ['vector'], function(Vector) {
         this.velocity.add(this.acceleration);
         this.position.add(this.velocity);
         return this;
-    };
-
-    Particle.prototype.interactWith = function(fields) {
-        var ax = 0, ay = 0;
-
-        for (var i = 0; i < fields.length; i++) {
-            var field = fields[i];
-
-            var v = field.position.copy().subtract(this.position);
-            var mag = v.getMagnitude();
-
-            if (mag <= field.size/2) {
-                this.isAlive = false;
-                break;
-            }
-
-            var force = field.mass / Math.pow(mag, 3);
-
-            ax += v.x * force;
-            ay += v.y * force;
-        }
-
-        this.acceleration = new Vector(ax, ay);
     };
 
     return Particle;
