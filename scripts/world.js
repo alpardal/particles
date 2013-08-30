@@ -13,6 +13,7 @@ define(['vector', 'rectangle', 'world_renderer', 'field', 'physics'],
         this.height = height;
 
         this.update = function() {
+            fields = removeMarkedObjects(fields);
             particles = physics.updateParticles(particles, fields, emitters);
         };
 
@@ -28,58 +29,41 @@ define(['vector', 'rectangle', 'world_renderer', 'field', 'physics'],
             var defaultMass = 500;
             var field = new Field(position, defaultMass);
             fields.push(field);
-            return fields.length-1;
+            return field;
         };
 
-        this.findFieldAt = function(position) {
-            return this.findObjectAt(fields, position);
+        this.objectAt = function(position) {
+            return findObjectAt(fields, position) ||
+                   findObjectAt(emitters, position);
         };
 
-        this.findEmitterAt = function(position) {
-            return this.findObjectAt(emitters, position);
-        };
-
-        this.findObjectAt = function(collection, position) {
-            for (var i = 0; i < collection.length; i++) {
-                if (collection[i].contains(position.x, position.y)) {
-                    return i;
-                }
-            }
-            return -1;
-        };
-
-        this.moveField = function(fieldIndex, delta) {
-            fields[fieldIndex].position.add(delta);
-        };
-
-        this.changeFieldMass = function(fieldIndex, delta) {
-            var field = fields[fieldIndex];
-            var massDelta = 10*delta.x;
-            field.setMass(field.mass + massDelta);
-        };
-
-        this.moveEmitter = function(emitterIndex, delta) {
-            emitters[emitterIndex].position.add(delta);
-        };
-
-        this.changeEmitterSpread = function(emitterIndex, delta) {
-            var emitter = emitters[emitterIndex];
-            emitter.setSpread(emitter.spread + delta.x * Math.PI/180);
-        };
-
-        this.changeEmitterAngle = function(emitterIndex, endPoint) {
-            var emitter = emitters[emitterIndex];
-            var speed = emitter.velocity.length();
-            var dir = endPoint.subtract(emitter.position).normalize();
-            emitter.velocity = dir.scale(speed);
-        };
-
-        this.removeField = function(fieldIndex) {
-            fields.splice(fieldIndex, 1);
+        this.remove = function(object) {
+            object.shouldRemove = true;
         };
 
         this.removeAllFields = function() {
             fields = [];
+        };
+
+        var findObjectAt = function(collection, position) {
+            for (var i = 0; i < collection.length; i++) {
+                var object = collection[i];
+                if (object.contains(position.x, position.y)) {
+                    return object;
+                }
+            }
+            return null;
+        };
+
+        var removeMarkedObjects = function(collection) {
+            var newCollection = [];
+            for (var i = 0; i < collection.length; i++) {
+                var object = collection[i];
+                if (!object.shouldRemove) {
+                    newCollection.push(object);
+                }
+            }
+            return newCollection;
         };
 
         this.addRandomFields = function() {

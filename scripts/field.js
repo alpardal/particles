@@ -14,6 +14,15 @@ define(['circle'], function(Circle) {
                             Field.MIN_RADIUS : this.radius;
     };
 
+    Field.prototype.dragged = function(delta, event) {
+        if (event.ctrlKey) {
+            var massDelta = 10 * delta.x;
+            this.setMass(this.mass + massDelta);
+        } else {
+            this.position.add(delta);
+        }
+    };
+
     Field.MIN_RADIUS = 3;
 
     return Field;

@@ -32,5 +32,21 @@ define(['vector', 'particle', 'circle'], function(Vector, Particle, Circle) {
         }
         return particles;
     };
+
+    Emitter.prototype.dragged = function(delta, event) {
+        if (event.ctrlKey) {
+            this.setSpread(this.spread + delta.x * Math.PI/180);
+            return;
+        }
+        if (event.shiftKey) {
+            var speed = this.velocity.length();
+            var endPoint = new Vector(event.x, event.y);
+            var dir = endPoint.subtract(this.position).normalize();
+            this.velocity = dir.scale(speed);
+            return;
+        }
+        this.position.add(delta);
+    };
+
     return Emitter;
 });
