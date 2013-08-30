@@ -28,16 +28,16 @@ define(['vector'], function(Vector) {
         };
 
         this.mouseMove = function(e) {
-            var clickPosition = new Vector(e.x, e.y);
+            var mousePosition = new Vector(e.x, e.y);
 
             if (ctrl.selectedField >= 0) {
-                var delta = clickPosition.copy().subtract(ctrl.previousMousePosition);
+                var delta = mousePosition.copy().subtract(ctrl.previousMousePosition);
                 if (ctrl.resizing) {
                     world.changeFieldMass(ctrl.selectedField, delta);
                 } else {
                     world.moveField(ctrl.selectedField, delta);
                 }
-                ctrl.previousMousePosition = clickPosition;
+                ctrl.previousMousePosition = mousePosition;
             }
         };
 

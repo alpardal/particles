@@ -1,4 +1,4 @@
-define(['vector', 'particle'], function(Vector, Particle) {
+define(['vector', 'particle', 'circle'], function(Vector, Particle, Circle) {
     var Emitter = function(position, velocity, spread) {
         this.position = position;
         this.velocity = velocity;
@@ -6,6 +6,8 @@ define(['vector', 'particle'], function(Vector, Particle) {
         this.drawColor = '#999';
         this.emissionRate = 8 * Math.random();
     };
+
+    Emitter.prototype = Object.create(Circle.prototype);
 
     Emitter.prototype.emitParticle = function() {
         var angle = this.velocity.getAngle() +
