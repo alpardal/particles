@@ -16,6 +16,7 @@ define(['vector'], function(Vector) {
 
         this.mouseDown = function(e) {
             if (e.button !== 0) { return; }
+
             var clickPosition = new Vector(e.x, e.y);
             ctrl.previousMousePosition = clickPosition;
 
@@ -31,7 +32,7 @@ define(['vector'], function(Vector) {
                 ctrl.changeSpread = e.ctrlKey;
                 ctrl.changeAngle = e.shiftKey;
             } else {
-                ctrl.selectedField = world.createFieldAt(ctrl.previousMousePosition);
+                ctrl.selectedField = world.createFieldAt(clickPosition);
                 ctrl.resizing = true;
             }
         };
