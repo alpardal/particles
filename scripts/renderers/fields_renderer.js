@@ -7,7 +7,7 @@ define('renderers/fields_renderer', [], function() {
 
             ctx.beginPath();
             ctx.arc(field.position.x, field.position.y,
-                    field.size, 0, Math.PI*2);
+                    field.radius, 0, Math.PI*2);
             ctx.closePath();
             ctx.fill();
         };
