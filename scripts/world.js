@@ -31,9 +31,17 @@ define(['vector', 'rectangle', 'world_renderer', 'field', 'physics'],
             return fields.length-1;
         };
 
-        this.findFieldAt = function(x, y) {
-            for (var i = 0; i < fields.length; i++) {
-                if (fields[i].contains(x, y)) {
+        this.findFieldAt = function(position) {
+            return this.findObjectAt(fields, position);
+        };
+
+        this.findEmitterAt = function(position) {
+            return this.findObjectAt(emitters, position);
+        };
+
+        this.findObjectAt = function(collection, position) {
+            for (var i = 0; i < collection.length; i++) {
+                if (collection[i].contains(position.x, position.y)) {
                     return i;
                 }
             }
@@ -48,6 +56,15 @@ define(['vector', 'rectangle', 'world_renderer', 'field', 'physics'],
             var field = fields[fieldIndex];
             var massDelta = 10*delta.x;
             field.setMass(field.mass + massDelta);
+        };
+
+        this.moveEmitter = function(emitterIndex, delta) {
+            emitters[emitterIndex].position.add(delta);
+        };
+
+        this.changeEmitterSpread = function(emitterIndex, delta) {
+            var emitter = emitters[emitterIndex];
+            emitter.setSpread(emitter.spread + delta.x * Math.PI/180);
         };
 
         this.removeField = function(fieldIndex) {

@@ -3,11 +3,12 @@ define(['vector'], function(Vector) {
     var Controller = function(world) {
 
         var ctrl = this;
-        ctrl.selectedField = -1;
         ctrl.previousMousePosition = null;
+        ctrl.selectedField = -1;
+        ctrl.selectedEmitter = -1;
 
         this.doubleClick = function(e) {
-            var field = world.findFieldAt(e.x, e.y);
+            var field = world.findFieldAt(new Vector(e.x, e.y));
             if (field >= 0) {
                 world.removeField(field);
             }
@@ -15,12 +16,19 @@ define(['vector'], function(Vector) {
 
         this.mouseDown = function(e) {
             if (e.button !== 0) { return; }
+            var clickPosition = new Vector(e.x, e.y);
+            ctrl.previousMousePosition = clickPosition;
 
-            ctrl.selectedField = world.findFieldAt(e.x, e.y);
-            ctrl.previousMousePosition = new Vector(e.x, e.y);
+            ctrl.selectedField = world.findFieldAt(clickPosition);
+            ctrl.selectedEmitter = world.findEmitterAt(clickPosition);
 
             if (ctrl.selectedField >= 0) {
                 ctrl.resizing = e.ctrlKey;
+                return;
+            }
+
+            if (ctrl.selectedEmitter >= 0) {
+                ctrl.changeSpread = e.ctrlKey;
             } else {
                 ctrl.selectedField = world.createFieldAt(ctrl.previousMousePosition);
                 ctrl.resizing = true;
@@ -28,17 +36,28 @@ define(['vector'], function(Vector) {
         };
 
         this.mouseMove = function(e) {
+            if (ctrl.previousMousePosition === null) { return; }
+
             var mousePosition = new Vector(e.x, e.y);
+            var delta = mousePosition.copy().subtract(ctrl.previousMousePosition);
 
             if (ctrl.selectedField >= 0) {
-                var delta = mousePosition.copy().subtract(ctrl.previousMousePosition);
                 if (ctrl.resizing) {
                     world.changeFieldMass(ctrl.selectedField, delta);
                 } else {
                     world.moveField(ctrl.selectedField, delta);
                 }
-                ctrl.previousMousePosition = mousePosition;
+            } else {
+                if (ctrl.selectedEmitter >= 0) {
+                    if (ctrl.changeSpread) {
+                        world.changeEmitterSpread(ctrl.selectedEmitter, delta);
+                    } else {
+                        world.moveEmitter(ctrl.selectedEmitter, delta);
+                    }
+                }
             }
+
+            ctrl.previousMousePosition = mousePosition;
         };
 
         this.mouseUp = function(e) {
