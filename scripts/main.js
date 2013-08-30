@@ -2,6 +2,7 @@ define('main', ['particle_canvas', 'world', 'emitter', 'vector'],
        function(ParticleCanvas, World, Emitter, Vector) {
 
     var world = new World(window.innerWidth, window.innerHeight);
+    window.world = world;
     var speed = 4;
 
     world.addEmitter(new Emitter(new Vector(world.width/8,
