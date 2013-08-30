@@ -36,7 +36,7 @@ define(['vector', 'particle', 'circle'], function(Vector, Particle, Circle) {
     Emitter.prototype.drag = function(delta, event) {
         this.dragging = true;
         if (event.ctrlKey) {
-            this.setSpread(this.spread + delta.x * Math.PI/180);
+            this.setSpread(this.spread - delta.y * Math.PI/180);
             return;
         }
         if (event.shiftKey) {
