@@ -27,6 +27,13 @@ define([], function() {
     Vector.prototype.length = function() {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     };
+    Vector.prototype.rotate = function(angle) {
+        var sin = Math.sin(angle),
+            cos = Math.cos(angle);
+        var x = cos * this.x - sin * this.y,
+            y = sin * this.x + cos * this.y;
+        return new Vector(x, y);
+    };
     Vector.prototype.getAngle = function() {
         return Math.atan2(this.y, this.x);
     };
