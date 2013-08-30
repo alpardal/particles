@@ -2,7 +2,9 @@ define('controller', ['vector'], function(Vector) {
 
     var Controller = function(world) {
 
-        this.selectedField = -1;
+        var ctrl = this;
+        ctrl.selectedField = -1;
+        ctrl.previousMousePosition = null;
 
         this.doubleClick = function(e) {
             var field = world.findFieldAt(e.x, e.y);
@@ -14,34 +16,35 @@ define('controller', ['vector'], function(Vector) {
         this.mouseDown = function(e) {
             if (e.button !== 0) { return; }
 
-            this.selectedField = world.findFieldAt(e.x, e.y);
-            this.previousMousePosition = new Vector(e.x, e.y);
+            ctrl.selectedField = world.findFieldAt(e.x, e.y);
+            ctrl.previousMousePosition = new Vector(e.x, e.y);
 
-            if (this.selectedField >= 0) {
-                this.resizing = e.ctrlKey;
+            if (ctrl.selectedField >= 0) {
+                ctrl.resizing = e.ctrlKey;
             } else {
-                this.selectedField = world.createFieldAt(this.previousMousePosition);
-                this.resizing = true;
+                ctrl.selectedField = world.createFieldAt(ctrl.previousMousePosition);
+                ctrl.resizing = true;
             }
         };
 
         this.mouseMove = function(e) {
-            if (this.selectedField >= 0 && this.previousMousePosition) {
-                var clickPosition = new Vector(e.x, e.y);
-                var delta = clickPosition.copy().subtract(this.previousMousePosition);
-                if (this.resizing) {
-                    world.changeFieldMass(this.selectedField, delta);
+            var clickPosition = new Vector(e.x, e.y);
+
+            if (ctrl.selectedField >= 0) {
+                var delta = clickPosition.copy().subtract(ctrl.previousMousePosition);
+                if (ctrl.resizing) {
+                    world.changeFieldMass(ctrl.selectedField, delta);
                 } else {
-                    world.moveField(this.selectedField, delta);
+                    world.moveField(ctrl.selectedField, delta);
                 }
-                this.previousMousePosition = clickPosition;
+                ctrl.previousMousePosition = clickPosition;
             }
         };
 
         this.mouseUp = function(e) {
-            this.selectedField = -1;
-            this.previousMousePosition = null;
-            this.resizing = false;
+            ctrl.selectedField = -1;
+            ctrl.previousMousePosition = null;
+            ctrl.resizing = false;
         };
     };
 
