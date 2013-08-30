@@ -1,4 +1,4 @@
-define('field', ['circle'], function(Circle) {
+define(['circle'], function(Circle) {
 
     var Field = function(position, mass) {
         this.position = position;

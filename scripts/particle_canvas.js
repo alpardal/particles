@@ -1,4 +1,4 @@
-define('particle_canvas', ['controller'], function(Controller) {
+define(['controller'], function(Controller) {
 
     var ParticleCanvas = function(world, selector) {
         var canvas = document.querySelector(selector);

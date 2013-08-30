@@ -1,4 +1,4 @@
-define('rectangle', [], function() {
+define([], function() {
     var Rectangle = function(position, width, height) {
 
         this.x = position.x;

@@ -1,4 +1,4 @@
-define('main', ['particle_canvas', 'world', 'emitter', 'vector'],
+define(['particle_canvas', 'world', 'emitter', 'vector'],
        function(ParticleCanvas, World, Emitter, Vector) {
 
     var world = new World(window.innerWidth, window.innerHeight);

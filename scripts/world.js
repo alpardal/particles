@@ -1,5 +1,4 @@
-define('world',
-       ['vector', 'rectangle', 'world_renderer', 'field', 'physics'],
+define(['vector', 'rectangle', 'world_renderer', 'field', 'physics'],
        function(Vector, Rectangle, WorldRenderer, Field, Physics) {
 
     var World = function(width, height) {

@@ -1,4 +1,4 @@
-define('controller', ['vector'], function(Vector) {
+define(['vector'], function(Vector) {
 
     var Controller = function(world) {
 

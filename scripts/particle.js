@@ -1,4 +1,4 @@
-define('particle', ['vector'], function(Vector) {
+define(['vector'], function(Vector) {
     var Particle = function(position, velocity) {
         this.position = position;
         this.velocity = velocity;

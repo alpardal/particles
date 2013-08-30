@@ -1,4 +1,4 @@
-define('renderers/particle_renderer', [], function() {
+define([], function() {
     var ParticleRenderer = function(particles) {
         var particleSize = 1;
         var lower = 3.8, upper = 8;

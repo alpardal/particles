@@ -1,4 +1,4 @@
-define('emitter', ['vector', 'particle'], function(Vector, Particle) {
+define(['vector', 'particle'], function(Vector, Particle) {
     var Emitter = function(position, velocity, spread) {
         this.position = position;
         this.velocity = velocity;

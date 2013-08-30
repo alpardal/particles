@@ -1,4 +1,4 @@
-define('renderers/fields_renderer', [], function() {
+define([], function() {
 
     var FieldsRenderer = function(fields) {
 

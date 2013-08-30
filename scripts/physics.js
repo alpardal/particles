@@ -1,5 +1,4 @@
-times = 0;
-define('physics', ['vector'], function(Vector) {
+define(['vector'], function(Vector) {
 
     var Physics = function(maxParticles, bounds) {
 
