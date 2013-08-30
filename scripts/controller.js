@@ -29,6 +29,7 @@ define(['vector'], function(Vector) {
         };
 
         this.mouseUp = function(e) {
+            if (ctrl.selectedObject) { ctrl.selectedObject.stopDrag(); }
             ctrl.selectedObject = null;
         };
 
@@ -42,7 +43,7 @@ define(['vector'], function(Vector) {
             var delta = mousePosition.copy().subtract(ctrl.previousMousePosition);
 
             if (ctrl.selectedObject) {
-                ctrl.selectedObject.dragged(delta, e);
+                ctrl.selectedObject.drag(delta, e);
             }
 
             clearHover();

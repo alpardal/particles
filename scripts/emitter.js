@@ -33,7 +33,7 @@ define(['vector', 'particle', 'circle'], function(Vector, Particle, Circle) {
         return particles;
     };
 
-    Emitter.prototype.dragged = function(delta, event) {
+    Emitter.prototype.drag = function(delta, event) {
         if (event.ctrlKey) {
             this.setSpread(this.spread + delta.x * Math.PI/180);
             return;
@@ -47,6 +47,8 @@ define(['vector', 'particle', 'circle'], function(Vector, Particle, Circle) {
         }
         this.position.add(delta);
     };
+
+    Emitter.prototype.stopDrag = function() {};
 
     return Emitter;
 });

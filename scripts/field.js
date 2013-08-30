@@ -3,6 +3,7 @@ define(['circle'], function(Circle) {
     var Field = function(position, mass) {
         this.position = position;
         this.setMass(mass);
+        this.firstDrag = true;
     };
 
     Field.prototype = Object.create(Circle.prototype);
@@ -14,13 +15,17 @@ define(['circle'], function(Circle) {
                             Field.MIN_RADIUS : this.radius;
     };
 
-    Field.prototype.dragged = function(delta, event) {
-        if (event.ctrlKey) {
+    Field.prototype.drag = function(delta, event) {
+        if (event.ctrlKey || this.firstDrag) {
             var massDelta = 10 * delta.x;
             this.setMass(this.mass + massDelta);
         } else {
             this.position.add(delta);
         }
+    };
+
+    Field.prototype.stopDrag = function() {
+        this.firstDrag = false;
     };
 
     Field.MIN_RADIUS = 3;
