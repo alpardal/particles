@@ -12,7 +12,7 @@ define(['vector', 'particle', 'circle'], function(Vector, Particle, Circle) {
 
     Emitter.prototype.setSpread = function(spread) {
         spread = (spread < 0) ? 0 : spread;
-        spread = (spread > Math.PI*2) ? Math.PI*2 : spread;
+        spread = (spread > Math.PI) ? Math.PI : spread;
         this.spread = spread;
     };
 
