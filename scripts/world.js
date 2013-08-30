@@ -18,7 +18,7 @@ define(['vector', 'rectangle', 'world_renderer', 'field', 'physics'],
         };
 
         this.draw = function(ctx) {
-            new WorldRenderer(particles, fields).render(ctx);
+            new WorldRenderer(particles, fields, emitters).render(ctx);
         };
 
         this.addEmitter = function(emitter) {
