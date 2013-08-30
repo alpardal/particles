@@ -29,6 +29,7 @@ define(['vector'], function(Vector) {
 
             if (ctrl.selectedEmitter >= 0) {
                 ctrl.changeSpread = e.ctrlKey;
+                ctrl.changeAngle = e.shiftKey;
             } else {
                 ctrl.selectedField = world.createFieldAt(ctrl.previousMousePosition);
                 ctrl.resizing = true;
@@ -52,7 +53,12 @@ define(['vector'], function(Vector) {
                     if (ctrl.changeSpread) {
                         world.changeEmitterSpread(ctrl.selectedEmitter, delta);
                     } else {
-                        world.moveEmitter(ctrl.selectedEmitter, delta);
+                        if (ctrl.changeAngle) {
+                            world.changeEmitterAngle(ctrl.selectedEmitter,
+                                                     mousePosition);
+                        } else {
+                            world.moveEmitter(ctrl.selectedEmitter, delta);
+                        }
                     }
                 }
             }

@@ -67,6 +67,13 @@ define(['vector', 'rectangle', 'world_renderer', 'field', 'physics'],
             emitter.setSpread(emitter.spread + delta.x * Math.PI/180);
         };
 
+        this.changeEmitterAngle = function(emitterIndex, endPoint) {
+            var emitter = emitters[emitterIndex];
+            var speed = emitter.velocity.length();
+            var dir = endPoint.subtract(emitter.position).normalize();
+            emitter.velocity = dir.scale(speed);
+        };
+
         this.removeField = function(fieldIndex) {
             fields.splice(fieldIndex, 1);
         };
