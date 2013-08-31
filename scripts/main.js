@@ -1,7 +1,10 @@
 define(['particle_canvas', 'world', 'emitter', 'vector'],
        function(ParticleCanvas, World, Emitter, Vector) {
 
-    var world = new World(window.innerWidth, window.innerHeight);
+    var width = document.documentElement.clientWidth;
+    var height = document.documentElement.clientHeight;
+    var offset = 5;
+    var world = new World(width - offset, height - offset);
     window.world = world;
     var speed = 4;
 
