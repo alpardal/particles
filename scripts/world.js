@@ -55,7 +55,7 @@ define(['vector', 'rectangle', 'world_renderer', 'field', 'emitter', 'physics'],
         var findObjectAt = function(collection, position) {
             for (var i = collection.length-1; i >= 0; i--) {
                 var object = collection[i];
-                if (object.contains(position.x, position.y)) {
+                if (object.contains(position)) {
                     return object;
                 }
             }

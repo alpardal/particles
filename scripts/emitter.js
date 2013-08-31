@@ -1,14 +1,15 @@
-define(['vector', 'particle', 'circle'], function(Vector, Particle, Circle) {
+define(['vector', 'particle', 'screen_object'],
+       function(Vector, Particle, ScreenObject) {
     var Emitter = function(position, velocity, spread) {
         this.position = position;
         this.velocity = velocity;
         this.spread = spread || Math.PI/8 * Math.random();
         this.drawColor = '#999';
         this.emissionRate = 8 * Math.random();
-        this.radius = 40;
+        this.size = 40;
     };
 
-    Emitter.prototype = Object.create(Circle.prototype);
+    Emitter.prototype = Object.create(ScreenObject.prototype);
 
     Emitter.prototype.setSpread = function(spread) {
         spread = (spread < 0) ? 0 : spread;

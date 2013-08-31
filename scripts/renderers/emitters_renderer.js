@@ -24,7 +24,8 @@ define([], function() {
     var drawCircle = function(emitter, ctx) {
         ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
         ctx.beginPath();
-        ctx.arc(emitter.position.x, emitter.position.y, emitter.radius, 0, Math.PI*2);
+        ctx.arc(emitter.position.x, emitter.position.y,
+                emitter.size, 0, Math.PI*2);
         ctx.closePath();
         ctx.fill();
     };

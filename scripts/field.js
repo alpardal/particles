@@ -1,4 +1,4 @@
-define(['circle'], function(Circle) {
+define(['screen_object'], function(ScreenObject) {
 
     var Field = function(position, mass) {
         this.position = position;
@@ -6,13 +6,13 @@ define(['circle'], function(Circle) {
         this.firstDrag = true;
     };
 
-    Field.prototype = Object.create(Circle.prototype);
+    Field.prototype = Object.create(ScreenObject.prototype);
 
     Field.prototype.setMass = function(mass) {
         this.mass = mass;
-        this.radius = 15 * Math.abs(mass) / 1000.0;
-        this.radius = (this.radius < Field.MIN_RADIUS) ?
-                            Field.MIN_RADIUS : this.radius;
+        this.size = 15 * Math.abs(mass) / 1000.0;
+        this.size = (this.size < Field.MIN_SIZE) ?
+                            Field.MIN_SIZE : this.size;
     };
 
     Field.prototype.drag = function(delta, event) {
@@ -28,7 +28,7 @@ define(['circle'], function(Circle) {
         this.firstDrag = false;
     };
 
-    Field.MIN_RADIUS = 3;
+    Field.MIN_SIZE = 3;
 
     return Field;
 });
