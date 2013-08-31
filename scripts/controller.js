@@ -1,10 +1,13 @@
-define(['vector'], function(Vector) {
+define(['vector', 'screen_object'], function(Vector, ScreenObject) {
+
+    DUMMY_OBJECT = new ScreenObject();
 
     var Controller = function(world) {
 
         var ctrl = this;
         ctrl.previousMousePosition = null;
-        ctrl.clickedObject = null;
+        ctrl.clickedObject = DUMMY_OBJECT;
+        ctrl.hovered = DUMMY_OBJECT;
 
         this.doubleClick = function(e) {
             var object = world.objectAt(new Vector(e.x, e.y));
@@ -19,27 +22,21 @@ define(['vector'], function(Vector) {
 
             ctrl.clickedObject = world.objectAt(clickPosition) ||
                                  createObjectAt(clickPosition, e);
-
             ctrl.clickedObject.mouseDown();
         };
 
         this.mouseUp = function(e) {
             ctrl.clickedObject.mouseUp();
-            ctrl.clickedObject = null;
+            ctrl.clickedObject = DUMMY_OBJECT;
         };
 
         this.mouseMove = function(e) {
             var mousePosition = new Vector(e.x, e.y);
-
-            if (ctrl.previousMousePosition === null) {
-                ctrl.previousMousePosition = mousePosition;
-            }
-
+            ctrl.previousMousePosition = ctrl.previousMousePosition ||
+                                         mousePosition;
             var delta = mousePosition.copy().subtract(ctrl.previousMousePosition);
 
-            if (ctrl.clickedObject) {
-                ctrl.clickedObject.mouseDrag(delta, e);
-            }
+            ctrl.clickedObject.mouseDrag(delta, e);
 
             var object = world.objectAt(mousePosition);
             if (object) {
@@ -57,21 +54,16 @@ define(['vector'], function(Vector) {
         };
 
         var hoverObject = function(object) {
-            if (ctrl.hovered) {
-                if (ctrl.hovered !== object) {
-                    ctrl.hovered.mouseExit();
-                }
-            } else {
+            if (ctrl.hovered !== object) {
+                ctrl.hovered.mouseExit();
                 object.mouseEnter();
+                ctrl.hovered = object;
             }
-            ctrl.hovered = object;
         };
 
         var clearHover = function() {
-            if (ctrl.hovered) {
-                ctrl.hovered.mouseExit();
-            }
-            ctrl.hovered = null;
+            ctrl.hovered.mouseExit();
+            ctrl.hovered = DUMMY_OBJECT;
         };
     };
 
