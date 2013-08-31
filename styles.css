@@ -5,4 +5,5 @@ body, html {
 
 canvas {
     background-color: black;
+    cursor: crosshair;
 }
