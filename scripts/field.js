@@ -15,7 +15,7 @@ define(['screen_object'], function(ScreenObject) {
                             Field.MIN_SIZE : this.size;
     };
 
-    Field.prototype.drag = function(delta, event) {
+    Field.prototype.doMouseDrag = function(delta, event) {
         if (event.ctrlKey || this.firstDrag) {
             var massDelta = 10 * delta.x;
             this.setMass(this.mass + massDelta);
@@ -24,7 +24,7 @@ define(['screen_object'], function(ScreenObject) {
         }
     };
 
-    Field.prototype.stopDrag = function() {
+    Field.prototype.doMouseUp = function() {
         this.firstDrag = false;
     };
 

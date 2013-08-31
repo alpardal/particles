@@ -17,6 +17,11 @@ define(['vector', 'particle', 'screen_object'],
         this.spread = spread;
     };
 
+    Emitter.prototype.setDirection = function(direction) {
+        var speed = this.velocity.length();
+        this.velocity = direction.normalize().scale(speed);
+    };
+
     Emitter.prototype.emitParticle = function() {
         var angle = this.velocity.getAngle() +
                       this.spread - (Math.random() * this.spread * 2);
@@ -34,8 +39,7 @@ define(['vector', 'particle', 'screen_object'],
         return particles;
     };
 
-    Emitter.prototype.drag = function(delta, event) {
-        this.dragging = true;
+    Emitter.prototype.doMouseDrag = function(delta, event) {
         if (event.altKey) { delta.scale(0.3); }
 
         if (event.ctrlKey) {
@@ -43,17 +47,11 @@ define(['vector', 'particle', 'screen_object'],
             return;
         }
         if (event.shiftKey) {
-            var speed = this.velocity.length();
-            var endPoint = new Vector(event.x, event.y);
-            var dir = endPoint.subtract(this.position).normalize();
-            this.velocity = dir.scale(speed);
+            var direction = new Vector(event.x, event.y).subtract(this.position);
+            this.setDirection(direction);
             return;
         }
         this.position.add(delta);
-    };
-
-    Emitter.prototype.stopDrag = function() {
-        this.dragging = false;
     };
 
     return Emitter;
