@@ -24,7 +24,11 @@ define(['vector'], function(Vector) {
             ctrl.selectedObject = world.objectAt(clickPosition);
 
             if (ctrl.selectedObject === null) {
-                ctrl.selectedObject = world.createFieldAt(clickPosition);
+                if (e.shiftKey) {
+                    ctrl.selectedObject = world.createEmitterAt(clickPosition);
+                } else {
+                    ctrl.selectedObject = world.createFieldAt(clickPosition);
+                }
             }
         };
 

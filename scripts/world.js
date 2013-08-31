@@ -1,5 +1,5 @@
-define(['vector', 'rectangle', 'world_renderer', 'field', 'physics'],
-       function(Vector, Rectangle, WorldRenderer, Field, Physics) {
+define(['vector', 'rectangle', 'world_renderer', 'field', 'emitter', 'physics'],
+       function(Vector, Rectangle, WorldRenderer, Field, Emitter, Physics) {
 
     var World = function(width, height) {
         var maxParticles = 5000;
@@ -14,6 +14,7 @@ define(['vector', 'rectangle', 'world_renderer', 'field', 'physics'],
 
         this.update = function() {
             fields = removeMarkedObjects(fields);
+            emitters = removeMarkedObjects(emitters);
             particles = physics.updateParticles(particles, fields, emitters);
         };
 
@@ -31,6 +32,12 @@ define(['vector', 'rectangle', 'world_renderer', 'field', 'physics'],
             fields.push(field);
             return field;
         };
+
+        this.createEmitterAt = function(position) {
+            var emitter = new Emitter(position, Vector.fromAngle(0, 4));
+            emitters.push(emitter);
+            return emitter;
+        }
 
         this.objectAt = function(position) {
             return findObjectAt(fields, position) ||
