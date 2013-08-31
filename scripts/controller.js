@@ -30,10 +30,12 @@ define(['vector', 'screen_object'], function(Vector, ScreenObject) {
             ctrl.clickedObject = DUMMY_OBJECT;
         };
 
+        this.mouseEnter = function(e) {
+            ctrl.previousMousePosition = new Vector(e.x, e.y);
+        };
+
         this.mouseMove = function(e) {
             var mousePosition = new Vector(e.x, e.y);
-            ctrl.previousMousePosition = ctrl.previousMousePosition ||
-                                         mousePosition;
             var delta = mousePosition.copy().subtract(ctrl.previousMousePosition);
 
             ctrl.clickedObject.mouseDrag(delta, e);

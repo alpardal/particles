@@ -11,6 +11,7 @@ define(['controller'], function(Controller) {
         canvas.addEventListener('mousedown', controller.mouseDown);
         canvas.addEventListener('mouseup', controller.mouseUp);
         canvas.addEventListener('mousemove', controller.mouseMove);
+        canvas.addEventListener('mouseover', controller.mouseEnter);
 
         this.start = function() {
             loop();
