@@ -1,5 +1,5 @@
-define(['vector', 'rectangle', 'world_renderer', 'field', 'emitter', 'physics'],
-       function(Vector, Rectangle, WorldRenderer, Field, Emitter, Physics) {
+define(['vector', 'rectangle', 'world_renderer', 'field', 'emitter', 'physics', 'world_deserializer'],
+       function(Vector, Rectangle, WorldRenderer, Field, Emitter, Physics, Deserializer) {
 
     var World = function(width, height) {
         var maxParticles = 5000;
@@ -50,6 +50,16 @@ define(['vector', 'rectangle', 'world_renderer', 'field', 'emitter', 'physics'],
 
         this.removeAllFields = function() {
             fields = [];
+        };
+
+        this.serialize = function() {
+            return JSON.stringify({fields: fields, emitters: emitters}).replace(/"/g, "'");
+        };
+
+        this.deserialize = function(string) {
+            var deserializer = new Deserializer(string.replace(/'/g, '"'));
+            fields = deserializer.fields();
+            emitters = deserializer.emitters();
         };
 
         var findObjectAt = function(collection, position) {
