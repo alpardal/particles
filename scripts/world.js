@@ -1,47 +1,43 @@
-define(['vector', 'rectangle', 'world_renderer', 'field', 'emitter', 'physics', 'world_deserializer'],
-       function(Vector, Rectangle, WorldRenderer, Field, Emitter, Physics, Deserializer) {
+define(['vector', 'rectangle', 'field', 'emitter', 'physics', 'world_deserializer'],
+       function(Vector, Rectangle, Field, Emitter, Physics, Deserializer) {
 
     var World = function(width, height) {
         var maxParticles = 5000;
-        var emitters = [];
-        var fields = [];
-        var particles = [];
         var bounds = new Rectangle(new Vector(), width, height);
         var physics = new Physics(maxParticles, bounds);
 
         this.width = width;
         this.height = height;
+        this.particles = [];
+        this.fields = [];
+        this.emitters = [];
 
         this.update = function() {
-            fields = removeMarkedObjects(fields);
-            emitters = removeMarkedObjects(emitters);
-            particles = physics.updateParticles(particles, fields, emitters);
-        };
-
-        this.draw = function(ctx) {
-            new WorldRenderer(particles, fields, emitters).render(ctx);
+            this.fields = removeMarkedObjects(this.fields);
+            this.emitters = removeMarkedObjects(this.emitters);
+            this.particles = physics.updateParticles(this.particles, this.fields, this.emitters);
         };
 
         this.addEmitter = function(emitter) {
-            emitters.push(emitter);
+            this.emitters.push(emitter);
         };
 
         this.createFieldAt = function(position) {
             var defaultMass = 500;
             var field = new Field(position, defaultMass);
-            fields.push(field);
+            this.fields.push(field);
             return field;
         };
 
         this.createEmitterAt = function(position) {
             var emitter = new Emitter(position, Vector.fromAngle(0, 4));
-            emitters.push(emitter);
+            this.emitters.push(emitter);
             return emitter;
         }
 
         this.objectAt = function(position) {
-            return findObjectAt(fields, position) ||
-                   findObjectAt(emitters, position);
+            return findObjectAt(this.fields, position) ||
+                   findObjectAt(this.emitters, position);
         };
 
         this.remove = function(object) {
@@ -49,17 +45,17 @@ define(['vector', 'rectangle', 'world_renderer', 'field', 'emitter', 'physics', 
         };
 
         this.removeAllFields = function() {
-            fields = [];
+            this.fields = [];
         };
 
         this.serialize = function() {
-            return JSON.stringify({fields: fields, emitters: emitters}).replace(/"/g, "'");
+            return JSON.stringify({fields: this.fields, emitters: this.emitters}).replace(/"/g, "'");
         };
 
         this.deserialize = function(string) {
             var deserializer = new Deserializer(string.replace(/'/g, '"'));
-            fields = deserializer.fields();
-            emitters = deserializer.emitters();
+            this.fields = deserializer.fields();
+            this.emitters = deserializer.emitters();
         };
 
         var findObjectAt = function(collection, position) {
@@ -92,7 +88,7 @@ define(['vector', 'rectangle', 'world_renderer', 'field', 'emitter', 'physics', 
                     y = this.height * Math.random(),
                 mass = -1000 + 2000 * Math.random();
                 var pos = new Vector(x, y);
-                fields.push(new Field(new Vector(x, y), mass))
+                this.fields.push(new Field(new Vector(x, y), mass))
             }
         };
 

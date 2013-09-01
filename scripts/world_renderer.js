@@ -3,12 +3,12 @@ define(['renderers/particle_renderer',
         'renderers/emitters_renderer'],
        function(ParticleRenderer, FieldsRenderer, EmittersRenderer) {
 
-    var WorldRenderer = function(particles, fields, emitters) {
+    var WorldRenderer = function(world) {
 
         this.render = function(ctx) {
-            new ParticleRenderer(particles).render(ctx);
-            new FieldsRenderer(fields).render(ctx);
-            new EmittersRenderer(emitters).render(ctx);
+            new ParticleRenderer(world.particles).render(ctx);
+            new FieldsRenderer(world.fields).render(ctx);
+            new EmittersRenderer(world.emitters).render(ctx);
         };
     };
 

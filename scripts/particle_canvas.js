@@ -1,10 +1,11 @@
-define(['controller'], function(Controller) {
+define(['controller', 'world_renderer'], function(Controller, WorldRenderer) {
 
     var ParticleCanvas = function(world, selector) {
         var canvas = document.querySelector(selector);
         canvas.width = world.width;
         canvas.height = world.height;
         var ctx = canvas.getContext('2d');
+        var worldRenderer = new WorldRenderer(world);
 
         var controller = new Controller(world);
         canvas.addEventListener('dblclick', controller.doubleClick);
@@ -20,7 +21,7 @@ define(['controller'], function(Controller) {
         var loop = function() {
             clearBackground();
             world.update();
-            world.draw(ctx);
+            worldRenderer.render(ctx);
             window.requestAnimationFrame(loop);
         };
 
