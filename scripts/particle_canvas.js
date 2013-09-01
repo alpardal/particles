@@ -13,6 +13,7 @@ define(['controller', 'world_renderer'], function(Controller, WorldRenderer) {
         canvas.addEventListener('mouseup', controller.mouseUp);
         canvas.addEventListener('mousemove', controller.mouseMove);
         canvas.addEventListener('mouseover', controller.mouseEnter);
+        canvas.addEventListener('mouseout', controller.mouseLeave);
 
         this.start = function() {
             loop();

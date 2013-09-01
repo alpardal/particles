@@ -6,8 +6,8 @@ define(['vector', 'screen_object'], function(Vector, ScreenObject) {
 
         var ctrl = this;
         ctrl.previousMousePosition = null;
-        ctrl.clickedObject = DUMMY_OBJECT;
-        ctrl.hovered = DUMMY_OBJECT;
+        ctrl.selectedObject = DUMMY_OBJECT;
+        ctrl.hoveredObject = DUMMY_OBJECT;
 
         this.doubleClick = function(e) {
             var object = world.objectAt(new Vector(e.x, e.y));
@@ -20,25 +20,28 @@ define(['vector', 'screen_object'], function(Vector, ScreenObject) {
             var clickPosition = new Vector(e.x, e.y);
             ctrl.previousMousePosition = clickPosition;
 
-            ctrl.clickedObject = world.objectAt(clickPosition) ||
-                                 createObjectAt(clickPosition, e);
-            ctrl.clickedObject.mouseDown();
+            selectObject(world.objectAt(clickPosition) ||
+                         createObjectAt(clickPosition, e));
         };
 
         this.mouseUp = function(e) {
-            ctrl.clickedObject.mouseUp();
-            ctrl.clickedObject = DUMMY_OBJECT;
+            clearSelection();
         };
 
         this.mouseEnter = function(e) {
             ctrl.previousMousePosition = new Vector(e.x, e.y);
         };
 
+        this.mouseLeave = function(e) {
+            clearSelection();
+            clearHover();
+        };
+
         this.mouseMove = function(e) {
             var mousePosition = new Vector(e.x, e.y);
             var delta = mousePosition.copy().subtract(ctrl.previousMousePosition);
 
-            ctrl.clickedObject.mouseDrag(delta, e);
+            ctrl.selectedObject.mouseDrag(delta, e);
 
             var object = world.objectAt(mousePosition);
             if (object) {
@@ -55,17 +58,27 @@ define(['vector', 'screen_object'], function(Vector, ScreenObject) {
                                     world.createFieldAt(position);
         };
 
+        var selectObject = function(object) {
+            object.mouseDown();
+            ctrl.selectedObject = object;
+        };
+
+        var clearSelection = function() {
+            ctrl.selectedObject.mouseUp();
+            ctrl.selectedObject = DUMMY_OBJECT;
+        };
+
         var hoverObject = function(object) {
-            if (ctrl.hovered !== object) {
-                ctrl.hovered.mouseExit();
+            if (ctrl.hoveredObject !== object) {
+                ctrl.hoveredObject.mouseExit();
                 object.mouseEnter();
-                ctrl.hovered = object;
+                ctrl.hoveredObject = object;
             }
         };
 
         var clearHover = function() {
-            ctrl.hovered.mouseExit();
-            ctrl.hovered = DUMMY_OBJECT;
+            ctrl.hoveredObject.mouseExit();
+            ctrl.hoveredObject = DUMMY_OBJECT;
         };
     };
 
