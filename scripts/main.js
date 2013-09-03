@@ -1,4 +1,4 @@
-define(['particle_canvas', 'world', 'emitter', 'vector'],
+require(['particle_canvas', 'world', 'emitter', 'vector'],
        function(ParticleCanvas, World, Emitter, Vector) {
 
     var width = document.documentElement.clientWidth;
